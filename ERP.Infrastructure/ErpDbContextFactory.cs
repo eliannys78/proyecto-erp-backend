@@ -9,9 +9,11 @@ public class ErpDbContextFactory : IDesignTimeDbContextFactory<ErpDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<ErpDbContext>();
 
-        optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5432;Database=erp_db;Username=postgres;Password=123456"
-        );
+        var connectionString =
+            Environment.GetEnvironmentVariable("ERP_CONNECTION_STRING")
+            ?? "Host=localhost;Port=5432;Database=erp_db;Username=postgres;Password=TU_PASSWORD";
+
+        optionsBuilder.UseNpgsql(connectionString);
 
         return new ErpDbContext(optionsBuilder.Options);
     }
